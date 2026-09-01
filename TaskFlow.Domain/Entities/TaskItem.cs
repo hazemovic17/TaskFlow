@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TaskFlow.Domain.Enums;
+using TaskStatus = TaskFlow.Domain.Enums.TaskStatus;
 
 namespace TaskFlow.Domain.Entities
 {
@@ -15,7 +17,7 @@ namespace TaskFlow.Domain.Entities
 
         public string? Description { get; set; } //Descritption of task could be nullable
 
-        public bool IsDone { get; set; } = false; //status of the task if it is done or not
+        public TaskStatus Status { get; set; } = TaskStatus.Pending; //status of the task if it is done or not
 
         public DateTime? DueDate { get; set; } //end date of the task and it could be nullable which means this task could be done at anytime
 
