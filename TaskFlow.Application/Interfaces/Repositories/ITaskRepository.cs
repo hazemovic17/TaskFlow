@@ -17,8 +17,8 @@ namespace TaskFlow.Application.Interfaces.Repositories
 
         Task AddAsync(TaskItem task);
 
-        void Update(TaskItem task);
+        Task UpdateAsync(TaskItem task);
 
-        void Delete(TaskItem task);
+        Task DeleteAsync(TaskItem task);
     }
 }
