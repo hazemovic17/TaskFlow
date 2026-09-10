@@ -1,22 +1,44 @@
-﻿using TaskFlow.Application.Interfaces.Repositories;
-using System.Threading.Tasks;
-using TaskType = System.Threading.Tasks.Task;
+﻿using TaskFlow.Application.Exceptions;
+using TaskFlow.Application.Interfaces.IUseCases;
+using TaskFlow.Application.Interfaces.Repositories;
+using TaskFlow.Application.Interfaces.UserProvisioning;
 
+namespace TaskFlow.Application.UseCases.Tasks;
 
-namespace TaskFlow.Application.UseCases.Task
+public class DeleteTaskUseCase : IDeleteTaskUseCase
 {
-    public class DeleteTaskUseCase
+    private readonly ITaskRepository _taskRepository;
+    private readonly ICurrentUserService _currentUserService;
+
+    public DeleteTaskUseCase(
+        ITaskRepository taskRepository,
+        ICurrentUserService currentUserService)
     {
-        private readonly ITaskRepository _taskRepository;
+        _taskRepository = taskRepository;
+        _currentUserService = currentUserService;
+    }
 
-        public DeleteTaskUseCase(ITaskRepository taskRepository)
+    public async System.Threading.Tasks.Task ExecuteAsync(Guid id)
+    {
+        var currentUserRole = _currentUserService.Role;
+
+        // Only admins can delete tasks
+        if (currentUserRole != "Admin")
         {
-            _taskRepository = taskRepository;
+            throw new ForbiddenException(
+                "Only admins can delete tasks.");
         }
 
-        public async TaskType ExecuteAsync(Guid id) //to figure out name conflict
+        
+        var task = await _taskRepository.GetByIdAsync(id);
+
+        // Check if the task exists
+        if (task is null)
         {
-            throw new NotImplementedException();
+            throw new NotFoundException("Task was not found.");
         }
+
+        
+        await _taskRepository.DeleteAsync(task);
     }
 }

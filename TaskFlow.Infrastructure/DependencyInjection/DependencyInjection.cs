@@ -10,7 +10,16 @@ namespace TaskFlow.Infrastructure;
 
 public static class DependencyInjection
 {
-    public static IServiceCollection AddInfrastructure(
+    public static IServiceCollection AddRepositories(
+        this IServiceCollection services)
+    {
+        services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<ITaskRepository, TaskRepository>();
+
+        return services;
+    }
+
+ public static IServiceCollection AddPersistence(
         this IServiceCollection services,
         IConfiguration configuration)
     {
@@ -18,21 +27,7 @@ public static class DependencyInjection
             options.UseSqlServer(
                 configuration.GetConnectionString("DefaultConnection")));
 
-        services.AddScoped<IUserRepository, UserRepository>();
-        services.AddScoped<ITaskRepository, TaskRepository>();
-
-        return services;
-    }
-
-  
-
-
-    public static IServiceCollection AddApplication(
-        this IServiceCollection services)
-    {
-        services.AddScoped<LoginUseCase>();
-        services.AddScoped<RegisterUseCase>();
-
         return services;
     }
 }
+
