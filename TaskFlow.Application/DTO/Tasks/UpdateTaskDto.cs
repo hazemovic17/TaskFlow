@@ -15,5 +15,7 @@ namespace TaskFlow.Application.DTO.Tasks
         public DateTime? DueDate { get; set; }
 
         public Guid AssignedUserId { get; set; }
+
+        public TaskStatus Status { get; set; }
     }
 }
