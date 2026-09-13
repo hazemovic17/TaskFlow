@@ -7,6 +7,7 @@ using TaskFlow.Application.DTO.Auth;
 using TaskFlow.Application.Exceptions;
 using TaskFlow.Application.Interfaces.IUseCases;
 using TaskFlow.Application.Interfaces.Repositories;
+using TaskFlow.Application.Interfaces.Services;
 
 namespace TaskFlow.Application.UseCases.Auth
 {
@@ -53,6 +54,7 @@ namespace TaskFlow.Application.UseCases.Auth
                 UserId = user.Id,
                 Name = user.Name,
                 Email = user.Email,
+                Role = user.Role.ToString(),
                 Token = token
             };
         }
